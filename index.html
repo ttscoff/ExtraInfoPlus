@@ -1,1 +1,99 @@
-My Page
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Extra Info++ by ttscoff</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Extra Info++</h1>
+        <h2>I stole this script.</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/ttscoff/ExtraInfoPlus/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/ttscoff/ExtraInfoPlus/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/ttscoff/ExtraInfoPlus" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="extra-info" class="anchor" href="#extra-info"><span class="octicon octicon-link"></span></a>Extra Info++</h1>
+
+<p>A script to provide tag-based linking to external notes from within TaskPaper documents, allowing you to elaborate on tasks and ideas, collect additional resources and generally keep your TaskPaper files void of dozens of notes.</p>
+
+<p>The heavy lifting on this was all done by <a href="http://palobo.tumblr.com">Pedro Lobo</a></p>
+
+<p><em>Original Copyright (C) 2012 Pedro Lobo</em></p>
+
+<p><em>Modified by Brett Terpstra 2013:</em></p>
+
+<ul>
+<li>Added basic template capabilities and additional app examples</li>
+<li>If the tag value is empty, the task title is used for filename and templating</li>
+<li>Routines for handling peculiarities of each app</li>
+</ul><p>This is a hot mess as far as the AppleScript goes (my fault). Too many logic forks and redundancies were introduced in this process. It works well, but it's not as easily extensible as I'd like. Feel free to fix it...</p>
+
+<h2>
+<a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h2>
+
+<ol>
+<li>Open the <code>ExtraInfoPlus.applescript</code> file in AppleScript Editor and save it as a script in <code>~/Library/Scripts/Applications/TaskPaper</code>. </li>
+<li>You'll need to edit the template path to point to wherever you put this repo. </li>
+<li>Edit the docPath values for each app you want to use. These are the locations where new note files will be created for each app.</li>
+<li>Use a launcher like <a href="http://www.red-sweater.com/fastscripts/">FastScripts</a> for hotkey access to the script from within TaskPaper.</li>
+</ol><h2>
+<a name="apps" class="anchor" href="#apps"><span class="octicon octicon-link"></span></a>Apps</h2>
+
+<ul>
+<li>
+<code>@map</code> triggers <strong>MindNode</strong> using <em>Template.mindnode</em>
+</li>
+<li>
+<code>@mmap</code> triggers <strong>Mindjet MindManager</strong> using <em>Template.mindmanager</em>
+</li>
+<li>
+<code>@mapx</code> triggers <strong>iThoughtsX</strong> using <em>map.itm</em>
+</li>
+<li>
+<code>@outline</code> triggers <strong>OmniOutliner</strong> using <em>Template.opml</em>
+</li>
+<li>
+<code>@note</code> triggers <strong>nvALT</strong> using <em>Template.md</em>
+</li>
+</ul><h2>
+<a name="template-variables" class="anchor" href="#template-variables"><span class="octicon octicon-link"></span></a>Template variables</h2>
+
+<ul>
+<li>%%TITLE%% is generated from the tag value, or the task name if that's empty</li>
+<li>%%DATE%% is the ISO date at the runtime</li>
+<li>%%FILENAME%% is the document title of the originating TaskPaper document</li>
+<li>%%FILEPATH%% is the originating TaskPaper document as a file URL</li>
+</ul>
+      </section>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-19894778-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
