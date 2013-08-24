@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CanvasStyle</key>
+	<integer>0</integer>
+	<key>Level1LinkStyle</key>
+	<integer>5</integer>
+	<key>Level1LinkTapered</key>
+	<integer>1</integer>
+	<key>LevelNLinkStyle</key>
+	<integer>3</integer>
+	<key>MapAutoAlign</key>
+	<integer>1</integer>
+	<key>MapData</key>
+	<string>&lt;iThoughtsRelative version="2.0" app="iThoughtsX" appver="1.1"&gt;&lt;topics&gt;
+&lt;topic x="0.0" y="0.0" txt="%%TITLE%%" fnt="12.000000"&gt;
+&lt;/topic&gt;
+&lt;/topics&gt;&lt;relationships&gt;
+&lt;/relationships&gt;
+&lt;/iThoughtsRelative&gt;</string>
+	<key>MapLayout</key>
+	<integer>1</integer>
+	<key>MapViewStyle</key>
+	<integer>0</integer>
+	<key>RadialLayout</key>
+	<integer>0</integer>
+	<key>Rainbow</key>
+	<false/>
+</dict>
+</plist>
