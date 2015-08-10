@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Extra Info++ : I stole this script.">
 
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Extra Info++ by ttscoff</title>
+    <title>Extra Info++</title>
   </head>
 
   <body>
 
-    <header>
-      <div class="container">
-        <h1>Extra Info++</h1>
-        <h2>I stole this script.</h2>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/ttscoff/ExtraInfoPlus">View on GitHub</a>
 
-        <section id="downloads">
-          <a href="https://github.com/ttscoff/ExtraInfoPlus/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/ttscoff/ExtraInfoPlus/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/ttscoff/ExtraInfoPlus" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
+          <h1 id="project_title">Extra Info++</h1>
+          <h2 id="project_tagline">I stole this script.</h2>
 
-    <div class="container">
-      <section id="main_content">
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/ttscoff/ExtraInfoPlus/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/ttscoff/ExtraInfoPlus/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>
-<a name="extra-info" class="anchor" href="#extra-info"><span class="octicon octicon-link"></span></a>Extra Info++</h1>
+<a id="extra-info" class="anchor" href="#extra-info" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extra Info++</h1>
 
 <p>A script to provide tag-based linking to external notes from within TaskPaper documents, allowing you to elaborate on tasks and ideas, collect additional resources and generally keep your TaskPaper files void of dozens of notes.</p>
 
@@ -37,24 +40,35 @@
 
 <p><em>Original Copyright (C) 2012 Pedro Lobo</em></p>
 
+<p><strong>Modified by Brett Terpstra 2015:</strong></p>
+
+<ul>
+<li>Recognize <code>[[wiki links]]</code> in task text, automatically open them in the first item in the workList (defaults to nvALT)</li>
+<li>Simplified path setup</li>
+</ul>
+
 <p><em>Modified by Brett Terpstra 2013:</em></p>
 
 <ul>
 <li>Added basic template capabilities and additional app examples</li>
 <li>If the tag value is empty, the task title is used for filename and templating</li>
 <li>Routines for handling peculiarities of each app</li>
-</ul><p>This is a hot mess as far as the AppleScript goes (my fault). Too many logic forks and redundancies were introduced in this process. It works well, but it's not as easily extensible as I'd like. Feel free to fix it...</p>
+</ul>
+
+<p>This is a hot mess as far as the AppleScript goes (my fault). Too many logic forks and redundancies were introduced in this process. It works well, but it's not as easily extensible as I'd like. Feel free to fix it...</p>
 
 <h2>
-<a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h2>
+<a id="setup" class="anchor" href="#setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup</h2>
 
 <ol>
 <li>Open the <code>ExtraInfoPlus.applescript</code> file in AppleScript Editor and save it as a script in <code>~/Library/Scripts/Applications/TaskPaper</code>. </li>
 <li>You'll need to edit the template path to point to wherever you put this repo. </li>
 <li>Edit the docPath values for each app you want to use. These are the locations where new note files will be created for each app.</li>
 <li>Use a launcher like <a href="http://www.red-sweater.com/fastscripts/">FastScripts</a> for hotkey access to the script from within TaskPaper.</li>
-</ol><h2>
-<a name="apps" class="anchor" href="#apps"><span class="octicon octicon-link"></span></a>Apps</h2>
+</ol>
+
+<h2>
+<a id="apps" class="anchor" href="#apps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Apps</h2>
 
 <ul>
 <li>
@@ -67,13 +81,15 @@
 <code>@mapx</code> triggers <strong>iThoughtsX</strong> using <em>map.itm</em>
 </li>
 <li>
-<code>@outline</code> triggers <strong>OmniOutliner</strong> using <em>Template.opml</em>
+<code>@outline</code> triggers <strong>Tree 2</strong> using <em>Template.opml</em>
 </li>
 <li>
 <code>@note</code> triggers <strong>nvALT</strong> using <em>Template.md</em>
 </li>
-</ul><h2>
-<a name="template-variables" class="anchor" href="#template-variables"><span class="octicon octicon-link"></span></a>Template variables</h2>
+</ul>
+
+<h2>
+<a id="template-variables" class="anchor" href="#template-variables" aria-hidden="true"><span class="octicon octicon-link"></span></a>Template variables</h2>
 
 <ul>
 <li>%%TITLE%% is generated from the tag value, or the task name if that's empty</li>
@@ -82,6 +98,14 @@
 <li>%%FILEPATH%% is the originating TaskPaper document as a file URL</li>
 </ul>
       </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Extra Info++ maintained by <a href="https://github.com/ttscoff">ttscoff</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
     </div>
 
               <script type="text/javascript">
@@ -94,6 +118,7 @@
             pageTracker._trackPageview();
             } catch(err) {}
           </script>
+
 
   </body>
 </html>
