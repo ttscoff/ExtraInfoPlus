@@ -5,8 +5,12 @@
 --
 --  Copyright (C) 2012  Pedro Lobo <palobo@gmail.com>
 --
--- Modified by Brett Terpstra 2013
+-- Modified by Brett Terpstra 2015
 -- Added rudimentary templating and additional examples
+--
+-- Updated 8/10/15
+--   Added ability to find [[wiki links]] in task text, open using first item in workList
+--   Use ML+ notification center if Growl isn't running
 --
 -- Template variables
 -- %%TITLE%% is generated from the tag value, or the task name if that's empty
@@ -14,17 +18,19 @@
 -- %%FILENAME%% is the document title of the originating TaskPaper document
 -- %%FILEPATH%% is the originating TaskPaper document as a file URL
 --
--- Set your variables here
+-- Configure settings below
 --
+-- The base folder all paths will be relative to. If blank, use absolute paths
+property baseFolder : "/Users/ttscoff/Dropbox/"
 -- The folder where your templates are stored, must end in trailing slash
-property templateFolder : "/Users/ttscoff/Dropbox/Notes/Templates/"
+property templateFolder : "Notes/Templates/"
 -- Your keywords for app triggers, and their associated target paths, template names, extension and app name
-set workList to {{"note", "map", "mapx", "mmap", "outline"}, ¬
-	{docPath:"/Users/ttscoff/Dropbox/nvALT2.2/", template:"Template.md", ext:"md", appname:"nvALT"}, ¬
-	{docPath:"/Users/ttscoff/Dropbox/Notes/Brainstorming/", template:"Template.mindnode", ext:"mindnode", appname:"MindNode Pro"}, ¬
-	{docPath:"/Users/ttscoff/Dropbox/Notes/Brainstorming/", template:"map.itm", ext:"itmz", appname:"iThoughtsX"}, ¬
-	{docPath:"/Users/ttscoff/Dropbox/Notes/Brainstorming/", template:"Template.mindmanager", ext:"mmap", appname:"Mindjet MindManager"}, ¬
-	{docPath:"/Users/ttscoff/Dropbox/Notes/Brainstorming/", template:"Template.opml", ext:"opml", appname:"OmniOutliner"}}
+set workList to {{"note", "node", "map", "mmap", "outline"}, ¬
+	{docPath:"nvALT2.2/", template:"Template.md", ext:"md", appname:"nvALT"}, ¬
+	{docPath:"Notes/Brainstorming/", template:"Template.mindnode", ext:"mindnode", appname:"MindNode Pro"}, ¬
+	{docPath:"Notes/Brainstorming/", template:"map.itm", ext:"itmz", appname:"iThoughtsX"}, ¬
+	{docPath:"Notes/Brainstorming/", template:"Template.mindmanager", ext:"mmap", appname:"Mindjet MindManager"}, ¬
+	{docPath:"Notes/Brainstorming/", template:"Template.opml", ext:"opml", appname:"Tree 2"}}
 
 
 -- Change nothing bellow this point unless you know what you're doing. Magic starts here.
@@ -34,6 +40,7 @@ property dateNow : missing value
 set dateNow to do shell script "date '+%Y-%m-%d %H:%M'"
 
 tell application "TaskPaper"
+	my displayMessage("Operations", "Opened File", "Successfully opened")
 	set _doc to document of window 1
 	set _file to file of _doc
 	set srcPath to "file://" & POSIX path of _file
@@ -53,10 +60,16 @@ tell application "TaskPaper"
 						set _name to text content
 					end if
 					set rec to record marker of propList
-					my accessInfo(_name, docPath of rec, ext of rec, appname of rec, template of rec)
+					my accessInfo(_name, baseFolder & (docPath of rec), ext of rec, appname of rec, template of rec)
 				end if
 			end repeat
 		end repeat
+
+		set wikiLink to my findBetween("[[", "]]", text content)
+		if (count of wikiLink) > 0 then
+			set rec to record 1 of propList
+			my accessInfo(wikiLink, baseFolder & (docPath of rec), ext of rec, appname of rec, template of rec)
+		end if
 	end tell
 end tell
 
@@ -76,8 +89,8 @@ to accessInfo(_name, _path, _ext, _appname, _template)
 					do shell script "open -a " & quoted form of _appname & " " & quoted form of extraInfo
 				end if
 				my displayMessage("Operations", "Opened File", "Successfully opened " & _name & "." & _ext)
-			on error
-				my displayMessage("Errors", "Error", "Problem Opening " & _name & "." & _ext)
+			on error errStr number errorNumber
+				my displayMessage("Errors", "Error", "Problem Opening " & _name & "." & _ext & " : " & errStr & "(" & errorNumber & ")")
 			end try
 		else
 			try
@@ -94,14 +107,14 @@ to accessInfo(_name, _path, _ext, _appname, _template)
 					do shell script "cp -r " & quoted form of _template_path & " " & quoted form of extraInfo
 					my updateTemplate(extraInfo, _name, _appname, _path)
 					if _appname is "nvALT" then
-						do shell script "open nvalt://find/" & _name
+						do shell script "open \"nvalt://find/" & _name & "\""
 					else
 						do shell script "open -a " & quoted form of _appname & " " & quoted form of extraInfo
 					end if
 				end if
 				my displayMessage("Operations", "Created New File", "Successfully Created and Opened " & _name & "." & _ext)
-			on error
-				my displayMessage("Errors", "Error", "Problem Creating/Opening " & _name & "." & _ext)
+			on error errStr number errorNumber
+				my displayMessage("Errors", "Error", "Problem Creating/Opening " & _name & "." & _ext & " : " & errStr & "(" & errorNumber & ")")
 			end try
 
 		end if
@@ -149,6 +162,7 @@ on writeFile(unixPath, _content)
 end writeFile
 
 to displayMessage(msgName, msgTitle, msgText)
+
 	-- Check to see if it's running
 	tell application "System Events"
 		set growlRunning to (count of (every process whose bundle identifier is "com.Growl.GrowlHelperApp")) > 0
@@ -189,18 +203,38 @@ to displayMessage(msgName, msgTitle, msgText)
 				"TaskPaper Extended Notes"
 		end tell
 	else
-		display dialog msgText
+
+		display notification msgText with title msgName
+
 	end if
 
 end displayMessage
 
+on findBetween(startTag, endTag, theString)
+	set atid to text item delimiters
+	set text item delimiters to startTag
+	set _output to ""
+	set textItems to text items of theString
+	if (count of textItems) > 1 then
+		set _right to item 2 of textItems
+		set text item delimiters to endTag
+		set textItems to text items of _right
+		if (count of textItems) > 1 then
+			set _output to item 1 of textItems as string
+		end if
+	end if
+
+	set text item delimiters to atid
+	return _output
+end findBetween
+
 --search and replace function for template
-on snr(tofind, toreplace, TheString)
+on snr(tofind, toreplace, theString)
 	set atid to text item delimiters
 	set text item delimiters to tofind
-	set textItems to text items of TheString
+	set textItems to text items of theString
 	set text item delimiters to toreplace
-	if (class of TheString is string) then
+	if (class of theString is string) then
 		set res to textItems as string
 	else -- (assume Unicode)
 		set res to textItems as Unicode text

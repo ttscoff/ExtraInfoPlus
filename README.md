@@ -6,6 +6,11 @@ The heavy lifting on this was all done by [Pedro Lobo](http://palobo.tumblr.com)
 
 *Original Copyright (C) 2012 Pedro Lobo*
 
+**Modified by Brett Terpstra 2015:**
+
+* Recognize `[[wiki links]]` in task text, automatically open them in the first item in the workList (defaults to nvALT)
+* Simplified path setup
+
 *Modified by Brett Terpstra 2013:*
 
 * Added basic template capabilities and additional app examples
@@ -26,7 +31,7 @@ This is a hot mess as far as the AppleScript goes (my fault). Too many logic for
 * `@map` triggers **MindNode** using *Template.mindnode*
 * `@mmap` triggers **Mindjet MindManager** using *Template.mindmanager*
 * `@mapx` triggers **iThoughtsX** using *map.itm*
-* `@outline` triggers **OmniOutliner** using *Template.opml*
+* `@outline` triggers **Tree 2** using *Template.opml*
 * `@note` triggers **nvALT** using *Template.md*
 
 ## Template variables
